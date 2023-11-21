@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login page
+{% endblock %}
+
+{%block body%}
+
+	<script>
+        function toggleFields() {
+            var userType = document.getElementById("user_type").value;
+            var caregiverFields = document.getElementById("caregiver_fields");
+            var memberFields = document.getElementById("member_fields");
+
+            if (userType === "caregiver") {
+                caregiverFields.classList.remove("hidden");
+                memberFields.classList.add("hidden");
+            } else if (userType === "member") {
+                caregiverFields.classList.add("hidden");
+                memberFields.classList.remove("hidden");
+            } else {
+                caregiverFields.classList.add("hidden");
+                memberFields.classList.add("hidden");
+            }
+				var fields = document.querySelectorAll('input, textarea');
+            fields.forEach(function(field) {
+                field.removeAttribute('required');
+            });
+
+            // Set required attribute for the selected user type fields
+            var selectedFields = document.querySelectorAll('#' + userType + '_fields input, #' + userType + '_fields textarea');
+            selectedFields.forEach(function(field) {
+                field.setAttribute('required', 'required');
+            });
+
+        }
+    </script>
+
+<main class="form-signin w-220 m-auto">
+		<footer class = "container pt-4 my-md-5 pt-md-5 border-top">
+   	<h1 class="h3 mb-3 fw-normal">Please Register</h1>
+	<form method="post" action="{{ url_for('register') }}">
+    <div class="form-floating">
+      <input type="text" name="email" required placeholder = "Email">
+    </div>
+    <div class="form-floating">
+  	  <input type="text"  name="given_name" required placeholder = "Given_name"> 
+    </div>
+
+    <div class="form-floating">
+  	  <input type="text"  name="surname" required placeholder = "Surname">
+    </div>
+    <div class="form-floating">
+  	  <input type="text"  name="city" required placeholder = "City">
+    </div>
+    <div class="form-floating">
+  	  <input type="text"  name="phone_number" required placeholder = "Phone Number">
+    </div>
+    <div class="form-floating">
+  	  <input type="text"  name="profile_description" required placeholder = "Profile_description">
+    </div>
+    <div class="form-floating">
+  	  <input type="password"  name="password" required placeholder = "Password">
+    </div>
+
+		  <label for="user_type">Select User Type:</label>
+        <select name="user_type" id="user_type" onchange="toggleFields()">
+            <option value="" disabled selected>Select User Type</option>
+            <option value="caregiver">Caregiver</option>
+            <option value="member">Member</option>
+        </select><br>
+
+
+        <div id="caregiver_fields" class = "hidden">
+
+            <div class="form-floating">
+            <input type="text" name="photo" required placeholder= "photo URL"><br>
+			</div>
+            <div class="form-floating">
+            <select name="gender" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select><br>
+			</div>
+
+            <div class="form-floating">
+            <select name="caregiving_type" required>
+                <option value="babysitter">babysitter</option>
+                <option value="caregiver for elderly">caregiver for elderly</option>
+                <option value="playmate for children">playmate for children</option>
+            </select><br>
+			</div>
+
+            <div class="form-floating">
+            <input type="number" name="hourly_rate" step="0.01" required placeholder="Hourly Rate"><br>
+			</div>
+        </div>
+
+        <div id="member_fields" class = "hidden">
+            <div class="form-floating">
+            <textarea name="house_rules" placeholder = "House Rules"></textarea><br>
+			</div>
+
+            <div class="form-floating">
+            <input type="number" name="house_number" required placeholder = "House Number"><br>
+			</div>
+
+            <div class="form-floating">
+            <input type="text" name="street" required placeholder = "Street"><br>
+			</div>
+
+            <div class="form-floating">
+            <input type="text" name="town" required placeholder = 'Town'><br>
+			</div>
+        </div>
+
+    </div>
+    <button class="btn btn-primary w-100 py-2" type="submit">Register</button>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+  </footer>
+</form>
+<p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+
+</main>
+
+{% endblock %}

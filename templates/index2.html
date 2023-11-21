@@ -1,0 +1,21 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Main page
+{% endblock %}
+
+{%block body%}
+
+{% if 'user_id' in session %}
+        <h2>Welcome, user {{ session["user_id"] }}!</h2>
+        <a href="{{ url_for('logout') }}">Logout</a>
+<p><a href="{{ url_for('display_member', member_user_id= session ["user_id"]) }}">Go to Info Page</a></p>
+
+    {% else %}
+        <p>You need to log in first.</p>
+        <a href="{{ url_for('login') }}">Login</a>
+    {% endif %}
+
+
+{% endblock %}

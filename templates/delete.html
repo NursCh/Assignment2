@@ -1,0 +1,56 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Login page
+{% endblock %}
+
+{%block body%}
+<style>
+  /* Add margin to the form for spacing */
+  form {
+    overflow: visible;
+	padding 1px 14px;
+  }
+
+  /* Add margin to the paragraph for spacing */
+  p {
+    margin-top: 20px;
+  }
+</style>
+
+<main class="form-signin w-100 m-auto">
+  <footer class="container pt-4 my-md-5 pt-md-5 border-top">
+    <h1 class="h3 mb-3 fw-normal">Confirm deletion</h1>
+
+    <form method="post" action="{{ url_for('delete') }}">
+      <div class="form-floating m-auto">
+        <input type="text" id="email" name="email" required placeholder = "Email">
+      </div>
+      <div class="form-floating m-auto">
+        <input type="password" id="password" name="password" required placeholder = "Password" >
+      </div>
+
+      <button class="btn btn-primary w-100 py-2" type="submit">Delete</button>
+
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+    </form>
+
+  </footer>
+</main>
+
+<!-- Add space between the form and the paragraph -->
+<div style="height: 20px;"></div>
+
+
+        <a href="{{ url_for('logout') }}">Logout</a>
+<p><a href="{{ url_for('MainPage') }}">Go to MainPage</a></p>
+{% endblock %}
